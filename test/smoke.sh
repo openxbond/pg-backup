@@ -49,5 +49,8 @@ tool smoke-dst restore
 
 rows="$(docker exec smoke-dst psql -U postgres -d app -Atc "select count(*) from events")"
 hypertables="$(docker exec smoke-dst psql -U postgres -d app -Atc "select count(*) from timescaledb_information.hypertables")"
-[ "$rows" = 1000 ] && [ "$hypertables" = 1 ] || { echo "restore mismatch: rows=$rows hypertables=$hypertables" >&2; exit 1; }
+if [ "$rows" != 1000 ] || [ "$hypertables" != 1 ]; then
+  echo "restore mismatch: rows=$rows hypertables=$hypertables" >&2
+  exit 1
+fi
 echo "smoke ok: $rows rows, $hypertables hypertable"
