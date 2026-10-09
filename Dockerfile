@@ -8,7 +8,7 @@ LABEL org.opencontainers.image.source="https://github.com/openxbond/pg-backup" \
 
 RUN apk add --no-cache restic tzdata
 
-COPY backup.sh /usr/local/bin/pg-backup
+COPY --chmod=755 backup.sh /usr/local/bin/pg-backup
 
 USER postgres
 ENTRYPOINT ["pg-backup"]
